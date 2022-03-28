@@ -1,0 +1,18 @@
+.order, table{
+    border: 2px solid black;
+    width: 60vw;
+    border-collapse: collapse;
+}
+.order{
+    margin-bottom: 20px;
+}
+.header,.body{
+    border: 1px solid grey;
+}
+table{
+    table-layout: fixed;
+}
+th, td{
+    border-right: 1px solid black;
+    word-wrap: break-word;
+}
