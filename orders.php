@@ -13,6 +13,50 @@
 </head>
 
 <body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <!-- container -->
+            <a class="navbar-brand" href="#" style="margin-left: 30px;">ITI Cafeteria</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="allproducts.php">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="allusers.php">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php">Manual Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Checks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="orders.php">Orders</a>
+                    </li>
+
+                </ul>
+                <div style="display:inline; margin-left:700px">
+
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Admin </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- ./container -->
+        </nav>
+    </header>
     <h1>Orders</h1>
 
     <?php

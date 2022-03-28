@@ -56,7 +56,7 @@
                         <a class="nav-link" href="index.php">Manual Orders</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Checks</a>
+                        <a class="nav-link" href="check Admin page.php">Checks</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="orders.php">Orders</a>
@@ -69,7 +69,7 @@
                         <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                             Admin </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
 
                         </ul>
                     </div>
