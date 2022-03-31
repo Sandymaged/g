@@ -12,8 +12,19 @@ var_dump($_POST);
 //  $password_up=$_REQUEST["password"];
 // $filename_up=$_REQUEST["photo"];
 if ($db) {
+  $photoT1 = $_REQUEST["photo"];
+  $file_name2 = $_FILES['photo2']['name'];
+  $file_tmp = $_FILES['photo2']['tmp_name'];
+  //  echo"1";
 
-  $update_query = "update products set product_name=:name,product_price=:price,amount=:amount where product_id=:id";
+  if ($file_name2 == "") {
+    $filenamee = $photoT1;
+    // var_dump($filename);
+  } else {
+    $filenamee = $file_name2;
+    // echo "2";
+  }
+  $update_query = "update products set product_name=:name,product_price=:price,image= '{$filenamee}',amount=:amount where product_id=:id";
   $stmt = $db->prepare($update_query);
   $name = $_REQUEST["name"];
   $price = $_REQUEST["price"];

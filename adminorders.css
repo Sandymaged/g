@@ -1,18 +1,25 @@
-.order, table{
-    border: 2px solid black;
-    width: 60vw;
-    border-collapse: collapse;
+body {
+  background: linear-gradient(to bottom, #996633 0%, #ffffff 100%);
+  height: auto;
 }
-.order{
-    margin-bottom: 20px;
+.order,
+table {
+  border: 2px solid black;
+  width: 60vw;
+  border-collapse: collapse;
 }
-.header,.body{
-    border: 1px solid grey;
+.order {
+  margin-bottom: 20px;
 }
-table{
-    table-layout: fixed;
+.header,
+.body {
+  border: 1px solid grey;
 }
-th, td{
-    border-right: 1px solid black;
-    word-wrap: break-word;
+table {
+  table-layout: fixed;
+}
+th,
+td {
+  border-right: 1px solid black;
+  word-wrap: break-word;
 }

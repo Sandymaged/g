@@ -11,7 +11,8 @@ $c = $_POST['coffe'];
 $soft = $_POST['softdr'];
 $f = $_POST['frenchco'];
 $d = date("Y/m/d");
-$in = "insert into orders(total,note,room,user_id,date,staus,tea,coffe,soft,french)values({$x},'{$y}','{$z}',1,'{$d}','ss','{$t}','{$c}','{$s}','{$f}')";
+$id = $_SESSION['id'];
+$in = "insert into orders(total,note,room,user_id,date,staus,tea,coffe,soft,french)values({$x},'{$y}','{$z}',{$id},'{$d}','ss','{$t}','{$c}','{$s}','{$f}')";
 $stmt = $db->prepare($in);
 $stmt->execute();
 

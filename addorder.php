@@ -6,30 +6,22 @@ $db = new PDO($dsn, $user, $password);
 $x = (int) $_POST['total'];
 $z = (int) $_POST['room'];
 $y = $_POST['note'];
-$t = $_POST['tea'];
-$c = $_POST['coffe'];
-$soft = $_POST['softdr'];
-$f = $_POST['frenchco'];
 $n = $_POST['s'];
 $d = date("Y/m/d");
-$in = "insert into orders(total,note,room,user_id,date,staus,tea,coffe,soft,french)values({$x},'{$y}','{$z}','{$n}','{$d}','processing','{$t}','{$c}','{$soft}','{$f}')";
+$in = "insert into orders(total,note,room,user_id,date,staus)values({$x},'{$y}','{$z}','{$n}','{$d}','processing')";
 $stmt = $db->prepare($in);
 $stmt->execute();
-$up1 = "update products set amount=amount-{$t} where {$t}>0 && product_name='tea'";
-$up2 = "update products set amount=amount-{$c} where {$c}>0 && product_name='coffe'";
-$up3 = "update products set amount=amount-{$soft} where {$soft}>0 && product_name='soft drink'";
-$up4 = "update products set amount=amount-{$f} where {$f}>0 && product_name='french coffe'";
+$last_id = $db->lastInsertId();
 
-$stmt = $db->prepare($up1);
-$stmt->execute();
-
-$stmt = $db->prepare($up2);
-$stmt->execute();
-
-$stmt = $db->prepare($up3);
-$stmt->execute();
-
-$stmt = $db->prepare($up4);
-$stmt->execute();
-
+session_start();
+//var_dump($_SESSION['c']);
+if (!empty($_SESSION['c'])) {
+    foreach ($_SESSION['c'] as $key => $value) {
+        $ins = "insert into oproduct(product_id,order_id,amount)values({$value['id']},{$last_id},{$value['amount']})";
+        $stmt = $db->prepare($ins);
+        $stmt->execute();
+    }
+}
+//session_destroy();
+unset($_SESSION['c']);
 header("location:index.php");

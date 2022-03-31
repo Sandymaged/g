@@ -1,3 +1,7 @@
+<?php
+session_start();
+//echo $_SESSION['Name'];
+?>
 <html>
 
 <head>
@@ -54,7 +58,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="user orders.php">Orders</a>
                     </li>
+                    <div style="display:inline; margin-left:700px">
 
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <?php echo $_SESSION['Name']; ?></button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
                 </ul>
 
             </div>

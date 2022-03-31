@@ -9,6 +9,22 @@ $dsn = 'mysql:dbname=cafeteria;host=127.0.0.1;port=3306;'; #port number
 $user = 'root';
 $password = '';
 $conn = new PDO($dsn, $user, $password);
+$file_name = $_FILES['photo']['name'];
+$file_size = $_FILES['photo']['size'];
+$file_tmp = $_FILES['photo']['tmp_name'];
+$file_type = $_FILES['photo']['type'];
+// get file extension
+$ext = explode('.', $_FILES['photo']['name']);
+$file_ext = strtolower(end($ext));
+// or
+$ext = pathinfo($file_name)["extension"];
+$extensions = array("jpeg", "jpg", "png");
+
+if (in_array($file_ext, $extensions) == false) {
+    $errors["empty_photo"] = true;
+} else {
+    $old["photo"] = $file_name;
+}
 
 if ($_POST["name"] == "") {
     $errors["empty_name"] = true;
@@ -20,7 +36,6 @@ if ($_POST["price"] == "") {
 } else {
     $old["price"] = $_POST["price"];
 }
-
 if ($_POST["amount"] == "") {
     $errors["empty_amount"] = true;
 } else {
@@ -37,7 +52,6 @@ if (count($errors) > 0) {
 
     header("Location:addproduct.php{$base}");
 } else {
-
     $select_query = "select * from categories where category_name=? ";
     $stm = $conn->prepare($select_query);
     $cat = $_REQUEST["select"];
@@ -48,7 +62,7 @@ if (count($errors) > 0) {
     // echo $file_name;
     try {
         if ($conn) {
-            $ins_query = "insert into products(product_name, product_price,amount,category_id) values (:name, :price,:amount,:catid);";
+            $ins_query = "insert into products(product_name,image, product_price,amount,category_id) values (:name, ' $file_name', :price,:amount,:catid);";
             // $ins_query="insert into product(name, price,photo,categoryid) values ('uihui',778, 'hjjk',1);";
 
             $stmt = $conn->prepare($ins_query);
@@ -65,7 +79,13 @@ if (count($errors) > 0) {
             $stmt->bindParam(":catid", $catid);
 
             $stmt->execute();
-            header("location:allproducts.php");
+            echo $stmt->rowCount();
+            move_uploaded_file($file_tmp, $file_name);
+            // echo $file_name;
+            // var_dump( $stmt->execute());
+            header("location:allprod.php");
+            // echo $file_name;
+
         }
     } catch (Exception $e) {
         echo $e->getMessage();
