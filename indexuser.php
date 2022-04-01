@@ -1,6 +1,29 @@
 <?php
 session_start();
-//echo $_SESSION['Name'];
+if (isset($_POST['addtocarduser'])) {
+    if (isset($_SESSION['ca'])) {
+        $array_id = array_column($_SESSION['ca'], "id");
+
+        if (!in_array($_GET['id'], $array_id)) {
+            $session_array = array(
+                'id' => $_GET['id'],
+                'name' => $_POST['product_name'],
+                'price' => $_POST['product_price'],
+                'amount' => $_POST['count'],
+            );
+            $_SESSION['ca'][] = $session_array;
+        }
+    } else {
+        $session_array = array(
+            'id' => $_GET['id'],
+            'name' => $_POST['product_name'],
+            'price' => $_POST['product_price'],
+            'amount' => $_POST['count'],
+        );
+        $_SESSION['ca'][] = $session_array;
+    }
+}
+//session_destroy();
 ?>
 <html>
 
@@ -8,30 +31,16 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
-        #tea {
-            display: none;
-            color: green;
-            font-size: 20px;
-
+        body {
+            background: linear-gradient(to bottom, #996633 0%, #ffffff 100%);
+            height: auto;
+            color: white;
         }
 
-        #coffe {
-            display: none;
-            color: green;
-            font-size: 20px;
-        }
-
-        #sd {
-            display: none;
-            color: green;
-            font-size: 20px;
-        }
-
-        #fc {
-            display: none;
-            color: green;
-            font-size: 20px;
+        .sp {
+            margin-left: 40px;
         }
     </style>
 </head>
@@ -39,9 +48,9 @@ session_start();
 <body class="row">
 
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light" style="font-size: 20px;font-weight: bold;">
             <!-- container -->
-            <a class="navbar-brand" href="#">ITI Cafeteria</a>
+            <a class="navbar-brand" href="#" style="margin-left: 30px; font-size: 25px;">ITI Cafeteria</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -50,189 +59,105 @@ session_start();
                 <ul class="navbar-nav mr-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="indexuser.php">
-                            Home
-                        </a>
+                        <a class="nav-link" href="indexuser.php">Home</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="user orders.php">Orders</a>
                     </li>
-                    <div style="display:inline; margin-left:700px">
 
-                        <div class="dropdown">
-                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <?php echo $_SESSION['Name']; ?></button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-
-                            </ul>
-                        </div>
-                    </div>
                 </ul>
+                <div style="display:inline; margin-left:900px">
 
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?php echo $_SESSION['Name'];
+                            ?> </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+
+                        </ul>
+                    </div>
+                </div>
             </div>
             <!-- ./container -->
         </nav>
     </header>
-    <?php
 
+    <?php if (isset($_GET['error'])) { ?>
+        <p class="error" style="color:white;margin-top:20px; font-size:20px; margin-left:30px;"><?php echo $_GET['error']; ?></p>
+        <h3 style="color:white;margin-left:30px;"> LET'S MAKE ANOTHER ORDER!</h3>
+    <?php } ?>
+    <?php
     $dsn = 'mysql:dbname=cafeteria;host=127.0.0.1;port=3306;';
     $user = 'root';
     $password = '';
     $db = new PDO($dsn, $user, $password);
-    echo "<form method='post' action='addorderuser.php' class='row'>";
+
+    echo "<div class='container p-5'>
+    <form method='post' action='addorderuser.php' class='row'>
+    <input type='hidden' name='id' value='" . $_SESSION['id'] . "'>
+            <div class='row'>
+            ";
 
     $select_query = "select * from products";
     $stmt = $db->prepare($select_query);
     $resobj = $stmt->execute();
     echo "<div class='col-9'><div class='row row-cols-3 row-cols-md-3 g-4'>";
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $x = $row["product_name"];
-        $y = $row["product_price"];
-        echo "<div class='col'><div class='card'>
-            <img src='https://fakeimg.pl/250x100/adb5bd/' class='card-img-top'>
-            <div class='card-body'>
+
+        echo "<form method='post' action='indexuser.php?id=" . $row['product_id'] . "'>
+                <div class='col'><div class='card' style='background-color:'>
+        <img class=card-img-top' style='width:330px; height:280px;' src='" . $row["image"] . "'>
+        <div class='card-body text-center' style='color:black;'>
                 <h4 class='card-title'>{$row["product_name"]}</h4>
                 <h6 class='card-text'>Price: {$row["product_price"]}L.E</h6>
-                <a href='#' class='btn btn-success' onclick='d(`$x`,`$y`)'>ADD</a>
+                <input type='hidden' name='product_name' value='" . $row["product_name"] . "'>
+                <input type='hidden' name='product_price' value='" . $row["product_price"] . "'>
+                <input type='hidden' name='product_id' value='" . $row["product_id"] . "'>
+                <input class='control-form' type='number' name='count'>
+                <input type='submit' class='btn btn-dark' value='ADD TO CARD' name='addtocarduser' style='margin-top:10px'>
+                </form>
             </div>
         </div></div>";
     }
     echo "</div></div>";
     ?>
-    <div class="col-3" style="border:1px solid grey; height:500px">
-        <div style="margin-top:20px ;">
-            <div id="tea">
-                tea: <span id="t"></span>L.E
-                <a href="#" id="plus"><i class="fa fa-plus"></i></a>
-                <a href="#" id="mins"><i class="fa fa-minus"></i></a>
-                <textarea name="tea" id="totaltea">0</textarea>
-            </div>
-            <div id="coffe">coffe: <span id="c"></span>L.E
-                <a href="#" id="pluss"><i class="fa fa-plus"></i></a>
-                <a href="#" id="minss"><i class="fa fa-minus"></i></a>
-                <textarea name="coffe" id="totalcoffe">0</textarea>
-            </div>
-            <div id="sd">soft drink: <span id="s"></span>L.E
-                <a href="#" id="pluss1"><i class="fa fa-plus"></i></a>
-                <a href="#" id="minss1"><i class="fa fa-minus"></i></a>
-                <textarea name="softdr" id="totalsoftdr">0</textarea>
-            </div>
-            <div id="fc">french coffe: <span id="f"></span>L.E
-                <a href="#" id="pluss2"><i class="fa fa-plus"></i></a>
-                <a href="#" id="minss2"><i class="fa fa-minus"></i></a>
-                <textarea name="frenchco" id="totalfrenchco">0</textarea>
-            </div>
+
+    <div class="col-3" style="border:1px solid grey; height:600px; border-radius: 5px;">
+        <div style="margin-top:20px ; font-size:20px;">
+            <?php
+            if (!empty($_SESSION['ca'])) {
+                $total = 0;
+                foreach ($_SESSION['ca'] as $key => $value) {
+                    echo "<br>
+                            <span> " . $value['name'] . "</span><span>     " . $value['price'] . "</span>L.E<br>
+                            <span class='text-dark'>Amount: " . $value['amount'] . "</span><span class='text-dark'>      Total:     " . number_format($value['price'] * $value['amount'], 2) . "L.E</span>";
+                    $total = $total + ($value["amount"] * $value['price']);
+                }
+                echo '<br>
+                        <h3 style="font-size:25px; font-weight: bold; display:inline;">
+                        <span id="tp">TOTAL: ' . $total . '</span><span> EGP</span>
+                        <input type="hidden" value="' . $total . '" name="total" id="tpp">
+                        </h3>';
+            } ?>
+            <br><br>
             <br>
+
             <h5>Notes:</h5>
-            <textarea name="note"></textarea><br>
+            <textarea name="note" class="form-control"></textarea><br>
             <h5>Room:</h5>
             <input name="room" type="number" class="form-control"><br>
             <hr>
-            <p style="font-size:30px;"><textarea id="tp" name="total" style="width: 60px; height:50px">0 </textarea><span>EGP</span></p>
-            <input type="submit" value="CheckOut" class="btn btn-success" style="float:right;">
+
+            <input type="submit" value="CheckOut" class="btn btn-dark" style="float:right;">
 
         </div>
+
+    </div>
     </div>
     </form>
-    <script>
-        console.log("done");
-        let a;
-        let totalprice = 0;
-        let totaltea = 0;
-        let totalcoffe = 0;
-        let totalsoft = 0;
-        let totalfrench = 0;
 
-        function d(x, y) {
-            if (x == "tea") {
-                document.getElementById("tea").style.display = "block";
-                a = parseInt(y);
-                document.getElementById("t").textContent = a;
-                document.getElementById("plus").addEventListener("click", function() {
-                    totalprice = totalprice + 7;
-                    totaltea = totaltea + 1;
-                    console.log(totalprice);
-                    document.getElementById("tp").textContent = totalprice;
-                    document.getElementById("totaltea").textContent = totaltea;
-                });
-                document.getElementById("mins").addEventListener("click", function() {
-                    if (totalprice > 0) {
-                        totalprice = totalprice - 7;
-                        totaltea = totaltea - 1;
-                        console.log(totalprice);
-                        document.getElementById("tp").textContent = totalprice;
-                        document.getElementById("totaltea").textContent = totaltea;
-                    }
-                });
-            }
-            if (x == "coffe") {
-                document.getElementById("coffe").style.display = "block";
-                a = parseInt(y);
-                document.getElementById("c").textContent = a;
-                document.getElementById("pluss").addEventListener("click", function() {
-                    totalprice = totalprice + 20;
-                    totalcoffe = totalcoffe + 1;
-                    console.log(totalprice);
-                    document.getElementById("tp").textContent = totalprice;
-                    document.getElementById("totalcoffe").textContent = totalcoffe;
-                });
-                document.getElementById("minss").addEventListener("click", function() {
-                    if (totalprice > 0) {
-                        totalprice = totalprice - 20;
-                        totalcoffe = totalcoffe - 1;
-                        console.log(totalprice);
-                        document.getElementById("tp").textContent = totalprice;
-                        document.getElementById("totalcoffe").textContent = totalcoffe;
-                    }
-                });
-            }
-            if (x == "soft drink") {
-                document.getElementById("sd").style.display = "block";
-                a = parseInt(y);
-                document.getElementById("s").textContent = a;
-                document.getElementById("pluss1").addEventListener("click", function() {
-                    totalprice = totalprice + 7;
-                    totalsoft = totalsoft + 1;
-                    console.log(totalprice);
-                    document.getElementById("tp").textContent = totalprice;
-                    document.getElementById("totalsoftdr").textContent = totalsoft;
-                });
-                document.getElementById("minss1").addEventListener("click", function() {
-                    if (totalprice > 0) {
-                        totalprice = totalprice - 7;
-                        totalsoft = totalsoft - 1;
-                        console.log(totalprice);
-                        document.getElementById("tp").textContent = totalprice;
-                        document.getElementById("totalsoftdr").textContent = totalsoft;
-                    }
-                });
-            }
-            if (x == "french coffe") {
-                document.getElementById("fc").style.display = "block";
-                a = parseInt(y);
-                document.getElementById("f").textContent = a;
-                document.getElementById("pluss2").addEventListener("click", function() {
-                    totalprice = totalprice + 30;
-                    totalfrench = totalfrench + 1;
-                    console.log(totalprice);
-                    document.getElementById("tp").textContent = totalprice;
-                    document.getElementById("totalfrenchco").textContent = totalfrench;
-                });
-                document.getElementById("minss2").addEventListener("click", function() {
-                    if (totalprice > 0) {
-                        totalprice = totalprice - 30;
-                        totalfrench = totalfrench - 1;
-                        console.log(totalprice);
-                        document.getElementById("tp").textContent = totalprice;
-                        document.getElementById("totalfrenchco").textContent = totalfrench;
-                    }
-                });
-            }
 
-        }
-    </script>
 
 </body>
 

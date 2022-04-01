@@ -83,7 +83,7 @@ if (count($errors) > 0) {
             move_uploaded_file($file_tmp, $file_name);
             // echo $file_name;
             // var_dump( $stmt->execute());
-            header("location:allprod.php");
+            header("location:allproducts.php");
             // echo $file_name;
 
         }

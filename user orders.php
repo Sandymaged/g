@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <!doctype html>
 <html lang="en">
 
@@ -10,14 +14,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>user orders page</title>
+    <style>
+        body {
+            background-image: url(./14.jpg);
+            background-size: cover;
+
+        }
+    </style>
 </head>
 
 <body>
     <!-- <h1>User Orders page</h1> -->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light" style="font-size: 20px;font-weight: bold;">
             <!-- container -->
-            <a class="navbar-brand" href="#">ITI Cafeteria</a>
+            <a class="navbar-brand" href="#" style="margin-left: 30px; font-size: 25px;">ITI Cafeteria</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -26,26 +37,35 @@
                 <ul class="navbar-nav mr-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="indexuser.php">
-                            Home
-                        </a>
+                        <a class="nav-link" href="indexuser.php">Home</a>
                     </li>
-
                     <li class="nav-item">
-                        <a class="nav-link" href="user orders.php">Orders</a>
+                        <a class="nav-link" href="orders.php">Orders</a>
                     </li>
 
                 </ul>
+                <div style="display:inline; margin-left:900px">
 
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?php echo $_SESSION['Name'];
+                            ?> </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+
+                        </ul>
+                    </div>
+                </div>
             </div>
             <!-- ./container -->
         </nav>
     </header>
-    <div class="container bg-info">
+    <div class="container">
         <div class="row">
             <div class="col-12 mt-3">
-                <h1>******---> Your Orders <---***** </h1> <br>
-                        <hr>
+                <h1>Your Orders</h1>
+                <br>
+                <hr>
             </div>
         </div><br>
 
@@ -103,30 +123,38 @@
 
                             <?php
 
-                            $conn = mysqli_connect("localhost", "root", "", "cafeteria");
+                            //echo $_SESSION['id'];
+                            $id = $_SESSION['id'];
+
+                            $dsn = 'mysql:dbname=cafeteria;host=127.0.0.1;port=3306;';
+                            $user = 'root';
+                            $password = '';
+                            $conn = new PDO($dsn, $user, $password);
                             if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
                                 $start_date = $_GET['start_date'];
                                 $end_date = $_GET['end_date'];
-
-                                $query = "SELECT * FROM orders WHERE date BETWEEN '$start_date' AND '$end_date' ";
-                                $query_run = mysqli_query($conn, $query);
-
-                                if (mysqli_num_rows($query_run) > 0) {
-                                    foreach ($query_run as $row) {
-                                        // echo $row['date'];
+                                //echo $start_date . $end_date;
+                                $query = "SELECT * FROM orders WHERE user_id=$id AND date BETWEEN '{$start_date}' AND '{$end_date}' ";
+                                $stmt_user = $conn->prepare($query);
+                                $stmt_user->execute();
+                                $result_user = $stmt_user->fetchAll(PDO::FETCH_ASSOC);
+                                if ($result_user > 0) {
+                                    foreach ($result_user as $row) {
+                                        echo $row['date'];
                                         ?>
 
                                         <tr>
-                                            <td><input type="button" name='orderDetails' value="+" class="btn btn-success" onclick="details()"> &nbsp;&nbsp; <?php echo $row['date'] ?></td>
+                                            <td><input type="button" name='orderDetails' value="+" class="btn btn-success" onclick="details(<?php echo $row['order_id'] ?>)"> &nbsp;&nbsp; <?php echo $row['date'] ?></td>
                                             <td><?php echo $row['staus'] ?></td>
                                             <td><?php echo $row['total'] ?></td>
                                             <td>
                                                 <?php
                                                             if ($row['staus'] == 'processing') {
                                                                 ?>
-                                                    <!-- <a href="update.php"  class="btn btn-danger">Cancel</a> -->
+                                                    <a href='deleteorder.php?id=<?php echo $row['order_id'];  ?>' class="btn btn-danger">Cancel</a>
 
-                                                    <input type="button" class="btn btn-danger" value="Cancel">
+                                                    <!-- <input type="button" class="btn btn-danger" value="Cancel"> -->
+
                                                 <?php
                                                             }
 
@@ -152,29 +180,32 @@
 
         <table class="table">
             <thead>
-                <th>tea</th>
-                <th>coffe</th>
-                <th>soft</th>
-                <th>french</th>
+                <th>product name</th>
+                <th>amount</th>
+                <th>price</th>
+                <th>total</th>
+                <th>image</th>
             </thead>
             <tbody id="data_retrive">
 
             </tbody>
         </table>
 
-        <!-- <span>ahmmed</span>
-        <span>ahmmed</span> -->
+
 
     </div>
 
 
     <script>
-        function details() {
-            // alert('HElooooooooooooooooooooooooo');
+        function details(id) {
+            // alert(id);
             $.ajax({
 
                 type: "GET",
                 url: "order_db.php",
+                data: {
+                    key: id
+                },
                 dataType: 'html',
                 success: function(data) {
 

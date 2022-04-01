@@ -18,6 +18,17 @@ if ($_SESSION['role'] == "user") {
       .error {
         color: #FF0000;
       }
+
+      body {
+        background: linear-gradient(to bottom, #996633 0%, #ffffff 100%);
+        height: auto;
+        /* color: white; */
+        font-size: 100%;
+      }
+
+      .sp {
+        margin-left: 40px;
+      }
     </style>
   </head>
 
@@ -70,9 +81,8 @@ if ($_SESSION['role'] == "user") {
       // var_dump($error);
       $old = json_decode(@$_GET["old"]);
       ?>
-    <h1 class="text-center text-info">
-      ADD USER
-    </h1>
+    <h1 style=" size: 50px; margin-left: 300px;">Add user</h1>
+
     <div class="row">
       <div class="col-3"></div>
       <div class="col-6">

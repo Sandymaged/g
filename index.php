@@ -93,6 +93,10 @@ if ($_SESSION['role'] == "user") {
                 <!-- ./container -->
             </nav>
         </header>
+        <?php if (isset($_GET['error'])) { ?>
+            <p class="error" style="color:white;margin-top:20px; font-size:20px; margin-left:30px;"><?php echo $_GET['error']; ?></p>
+            <h3 style="color:white;margin-left:30px;"> LET'S MAKE ANOTHER ORDER TO ANOTHER PERSON!</h3>
+        <?php } ?>
         <?php
             $dsn = 'mysql:dbname=cafeteria;host=127.0.0.1;port=3306;';
             $user = 'root';

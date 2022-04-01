@@ -14,16 +14,24 @@ if ($_SESSION['role'] == "user") {
         <title>Document</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
         <style>
-            .error {
-                color: #FF0000;
+            body {
+                background: linear-gradient(to bottom, #996633 0%, #ffffff 100%);
+                height: 750px;
+                font-size: 150%;
+            }
+
+            .sp {
+                margin-left: 40px;
             }
         </style>
     </head>
 
     <body>
         <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: 20px;font-weight: bold;">
+            <nav class="navbar navbar-expand-lg navbar-light" style="font-size: 20px;font-weight: bold;">
                 <!-- container -->
                 <a class="navbar-brand" href="#" style="margin-left: 30px; font-size: 25px;">ITI Cafeteria</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +75,7 @@ if ($_SESSION['role'] == "user") {
         </header>
         <div class="container" style="font-size: 20px;">
             <h2 style="margin-top: 20px;" class="text-center">All Users</h2>
-            <a href="users.php" style="float: right;">Add User</a>
+            <a href="users.php" style="float: right;background-color: lightgrey;font-size: 30px;">Add User</a>
             <?php
 
                 $dsn = 'mysql:dbname=cafeteria;host=127.0.0.1;port=3306;'; #port number

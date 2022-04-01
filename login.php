@@ -37,7 +37,7 @@ if (isset($_POST['userName']) && isset($_POST['password'])) {
                 // echo " login !!!!!!!!!";
                 $_SESSION['Name'] = $row['user_name'];
                 $_SESSION['role'] = $row['role'];
-                $_SESSION['id'] = $row['id'];
+                $_SESSION['id'] = $row['user_id'];
                 if ($row["role"] == 'admin') {
                     header("location: index.php");
                 } else {

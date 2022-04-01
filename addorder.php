@@ -14,14 +14,18 @@ $stmt->execute();
 $last_id = $db->lastInsertId();
 
 session_start();
-//var_dump($_SESSION['c']);
+var_dump($_SESSION['c']);
 if (!empty($_SESSION['c'])) {
     foreach ($_SESSION['c'] as $key => $value) {
         $ins = "insert into oproduct(product_id,order_id,amount)values({$value['id']},{$last_id},{$value['amount']})";
+        $up = "update products p set p.amount=p.amount-{$value['amount']} where p.product_id={$value['id']}";
+
         $stmt = $db->prepare($ins);
         $stmt->execute();
+        $stm = $db->prepare($up);
+        $stm->execute();
     }
 }
 //session_destroy();
 unset($_SESSION['c']);
-header("location:index.php");
+header("location:index.php?error=HI, ORDER ADDED PLEASE WAIT, WILL RESEVE IN 10MIN");
