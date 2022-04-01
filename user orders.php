@@ -16,7 +16,7 @@ session_start();
     <title>user orders page</title>
     <style>
         body {
-            background-image: url(./14.jpg);
+            background-image: url('./s.jpeg');
             background-size: cover;
 
         }
@@ -140,7 +140,7 @@ session_start();
                                 $result_user = $stmt_user->fetchAll(PDO::FETCH_ASSOC);
                                 if ($result_user > 0) {
                                     foreach ($result_user as $row) {
-                                        echo $row['date'];
+                                        //   echo $row['date'];
                                         ?>
 
                                         <tr>
@@ -151,7 +151,7 @@ session_start();
                                                 <?php
                                                             if ($row['staus'] == 'processing') {
                                                                 ?>
-                                                    <a href='deleteorder.php?id=<?php echo $row['order_id'];  ?>' class="btn btn-danger">Cancel</a>
+                                                    <a href='deleteor.php?id=<?php echo $row['order_id'];  ?>' class="btn btn-danger">Cancel</a>
 
                                                     <!-- <input type="button" class="btn btn-danger" value="Cancel"> -->
 
