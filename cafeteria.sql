@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2022 at 12:13 AM
+-- Generation Time: Apr 01, 2022 at 02:01 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -54,35 +54,6 @@ CREATE TABLE `oproduct` (
   `amount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `oproduct`
---
-
-INSERT INTO `oproduct` (`id`, `product_id`, `order_id`, `amount`) VALUES
-(1, 4, 65, 2),
-(2, 3, 65, 3),
-(3, 8, 65, 2),
-(4, 4, 66, 2),
-(5, 3, 66, 3),
-(6, 8, 66, 2),
-(7, 4, 67, 3),
-(8, 3, 67, 5),
-(9, 3, 68, 2),
-(10, 4, 68, 1),
-(11, 3, 69, 2),
-(12, 8, 69, 3),
-(13, 3, 1, 2),
-(14, 4, 1, 4),
-(15, 8, 2, 2),
-(16, 4, 2, 2),
-(17, 12, 3, 3),
-(18, 4, 3, 3),
-(19, 4, 6, 1),
-(20, 8, 7, 2),
-(21, 4, 8, 2),
-(22, 8, 8, 3),
-(23, 12, 8, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -98,20 +69,6 @@ CREATE TABLE `orders` (
   `date` date NOT NULL,
   `staus` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`order_id`, `total`, `note`, `room`, `user_id`, `date`, `staus`) VALUES
-(1, 134, 'ss', 123, 8, '2022-03-31', 'deliver'),
-(2, 74, 'hot', 123, 9, '2022-03-31', 'deliver'),
-(3, 150, 'ss', 55, 7, '2022-03-31', 'deliver'),
-(4, 0, '', 0, 0, '2022-03-31', 'processing'),
-(5, 0, '', 0, 0, '2022-03-31', 'processing'),
-(6, 30, '', 0, 0, '2022-03-31', 'processing'),
-(7, 14, '', 0, 0, '2022-03-31', 'processing'),
-(8, 141, 'hot', 23, 5, '2022-03-31', 'processing');
 
 -- --------------------------------------------------------
 
@@ -133,10 +90,12 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `product_name`, `product_price`, `category_id`, `amount`, `image`) VALUES
-(1, 'soft drink', 7, 1, 10, 'coffe2.jpg'),
-(4, 'french coffe', 30, 1, 10, 'images (1).jpg'),
-(8, 'tea', 7, 1, 10, 'coffe4.jpg'),
-(12, 'latte', 20, 3, 10, 'coffe.jpg');
+(1, 'soft drink', 7, 1, 30, 'coffe2.jpg'),
+(4, 'french coffe', 30, 1, 18, 'images (1).jpg'),
+(8, 'tea', 7, 1, 5, 'coffe4.jpg'),
+(12, 'latte', 20, 3, 26, 'coffe.jpg'),
+(13, 'milkshake', 40, 2, 26, ' download (1).jpg'),
+(15, 'cappuccio', 35, 1, 18, ' download.jpg');
 
 -- --------------------------------------------------------
 
@@ -214,19 +173,19 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `oproduct`
 --
 ALTER TABLE `oproduct`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `users`
